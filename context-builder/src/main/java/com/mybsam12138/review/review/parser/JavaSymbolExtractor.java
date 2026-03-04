@@ -1,10 +1,13 @@
 package com.mybsam12138.review.review.parser;
 
+import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.mybsam12138.review.configuration.JavaParserProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +18,13 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class JavaSymbolExtractor {
+    private final JavaParserProvider javaParserProvider;
+
 
     public List<MethodDeclaration> extractMethods(File file) throws Exception {
-
-        CompilationUnit cu = StaticJavaParser.parse(file);
+        CompilationUnit cu = javaParserProvider.parse(file);
         return cu.findAll(MethodDeclaration.class);
     }
 
@@ -29,7 +34,7 @@ public class JavaSymbolExtractor {
      */
     public List<String> extractSymbolQueries(File file) throws Exception {
 
-        CompilationUnit cu = StaticJavaParser.parse(file);
+        CompilationUnit cu = javaParserProvider.parse(file);
 
         Set<String> symbols = new LinkedHashSet<>();
 
