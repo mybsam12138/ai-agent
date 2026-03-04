@@ -1,0 +1,1 @@
+1. Use **Lombok `@RequiredArgsConstructor`** to generate the constructor automatically.
