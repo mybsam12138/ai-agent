@@ -16,7 +16,24 @@ public class PromptBuilder {
         StringBuilder prompt = new StringBuilder();
 
         prompt.append("""
-                You are reviewing a Java code change.
+                You are a senior Java engineer performing a code review.
+
+                Review the following Java code change.
+
+                Focus primarily on the modified lines in the diff.
+                Use the provided code context only if it helps understand the change.
+
+                Review the change for the following issues:
+
+                - compilation problems
+                - incorrect or unused imports
+                - Spring Boot configuration mistakes
+                - logic errors
+                - potential runtime exceptions
+                - maintainability issues
+                - performance concerns
+                - security risks
+                - violations of common Java or Spring best practices
 
                 Changed diff:
 
@@ -36,7 +53,25 @@ public class PromptBuilder {
             prompt.append("(no additional context retrieved)\n");
         }
 
-        prompt.append("\nPlease review the change.");
+        prompt.append("""
+                                
+                Instructions:
+
+                1. Only comment on issues introduced or affected by the change.
+                2. Do not review unrelated code.
+                3. Be concise and actionable.
+
+                Output format:
+
+                Issue:
+                Severity: LOW | MEDIUM | HIGH
+                Explanation:
+                Suggested Fix:
+
+                If there are no issues, respond with:
+                "No problems detected."
+                """);
+
 
         return prompt.toString();
     }
